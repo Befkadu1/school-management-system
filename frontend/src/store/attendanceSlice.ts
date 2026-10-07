@@ -31,7 +31,10 @@ const slice = createSlice({
   reducers: {
     // "Actions" in NgRx terms. Reducers stay pure; side effects live in listeners (effects.ts).
     selectionChanged: (s, a: PayloadAction<{ classId: number; date: string }>) => {
-      s.classId = a.payload.classId; s.date = a.payload.date; s.status = 'loading'; s.error = null;
+      s.classId = a.payload.classId;
+      s.date = a.payload.date;
+      s.status = 'loading';
+      s.error = null;
     },
     rosterLoaded: (s, a: PayloadAction<{ roster: Student[]; records: AttendanceRecord[] }>) => {
       s.roster = a.payload.roster;
