@@ -1,22 +1,8 @@
-import { Command, type CommandHandler } from '../commandBus';
+import { Command, type CommandHandler } from '../../core/commandBus';
 import { createStudent, studentsActions } from '../../store/studentsSlice';
-import type { NewStudent, Student } from '../../api/types';
+import { CreateStudentCommand, FilterStudentsByClassCommand, SearchStudentsCommand } from './students.command';
+import type { Student } from '../../api/types';
 import type { AppStore } from '../../store';
-
-export class CreateStudentCommand extends Command {
-  readonly name = 'CreateStudent';
-  constructor(public readonly student: NewStudent) { super(); }
-}
-
-export class SearchStudentsCommand extends Command {
-  readonly name = 'SearchStudents';
-  constructor(public readonly search: string) { super(); }
-}
-
-export class FilterStudentsByClassCommand extends Command {
-  readonly name = 'FilterStudentsByClass';
-  constructor(public readonly classId: number | null) { super(); }
-}
 
 /** Rejects by throwing, so the caller can `await` and catch like any other command. */
 export class CreateStudentHandler implements CommandHandler<CreateStudentCommand, Student> {

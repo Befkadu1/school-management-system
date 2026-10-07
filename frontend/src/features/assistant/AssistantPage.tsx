@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppSelector } from '../../store';
 import { useCommand } from '../../core/PlatformProvider';
-import { AskAssistantCommand, PublishDraftCommand } from '../../core/commands/assistant';
+import { AskAssistantCommand, PublishDraftCommand } from './assistant.command';
 import type { AssistantMessage } from '../../store/assistantSlice';
 import type { AgentDraft, AgentStep } from '../../api/types';
 

@@ -4,17 +4,16 @@ import { Platform, ServiceName } from './platform';
 import {
   AttendanceHandler, MarkAttendanceCommand, MarkEveryoneCommand, RedoAttendanceCommand,
   SaveAttendanceCommand, SelectAttendanceContextCommand, UndoAttendanceCommand,
-} from './commands/attendance';
+} from '../features/attendance';
 import {
   CreateStudentCommand, CreateStudentHandler, FilterStudentsByClassCommand,
-  SearchStudentsCommand, StudentListHandler,
-} from './commands/students';
+  SearchStudentsCommand, StudentListFactory, StudentListHandler,
+} from '../features/students';
 import {
-  ClosePaymentDialogCommand, OpenPaymentDialogCommand, PaymentHandler, RecordPaymentCommand,
-} from './commands/fees';
-import { AskAssistantCommand, AssistantHandler, PublishDraftCommand } from './commands/assistant';
-import { StudentListFactory } from '../features/students/factory';
-import { InvoiceListFactory } from '../features/fees/factory';
+  ClosePaymentDialogCommand, InvoiceListFactory, OpenPaymentDialogCommand,
+  PaymentHandler, RecordPaymentCommand,
+} from '../features/fees';
+import { AskAssistantCommand, AssistantHandler, PublishDraftCommand } from '../features/assistant';
 import type { ViewFactory } from './viewFactoryRegistry';
 import type { ListItem } from './views/types';
 import type { Student } from '../api/types';
@@ -23,9 +22,9 @@ import { schoolApi, type SchoolApi } from '../api/schoolApi';
 import type { AppStore } from '../store';
 
 /**
- * The single place where the app is wired together. Commands, their handlers
- * and the view factories are registered here at start-up; nothing else in the
- * app knows which handler serves which command.
+ * The single place where the app is wired together. Each feature owns its
+ * commands, its handlers and its view factories; this is the only file that
+ * knows which handler serves which command.
  */
 export class Setup {
   constructor(private platform: Platform) {}

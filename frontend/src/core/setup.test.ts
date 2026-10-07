@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest';
 import { createPlatform } from './setup';
 import { ServiceName } from './platform';
 import { makeStore } from '../store';
-import { MarkAttendanceCommand, SaveAttendanceCommand, UndoAttendanceCommand } from './commands/attendance';
-import { OpenPaymentDialogCommand } from './commands/fees';
-import { AskAssistantCommand } from './commands/assistant';
-import { CreateStudentCommand } from './commands/students';
+import { MarkAttendanceCommand, SaveAttendanceCommand, UndoAttendanceCommand } from '../features/attendance';
+import { OpenPaymentDialogCommand } from '../features/fees';
+import { AskAssistantCommand } from '../features/assistant';
+import { CreateStudentCommand } from '../features/students';
 import type { SchoolApi } from '../api/schoolApi';
 import type { Command, CommandType } from './commandBus';
 

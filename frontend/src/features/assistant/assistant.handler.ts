@@ -1,17 +1,7 @@
-import { Command, type CommandHandler } from '../commandBus';
+import { Command, type CommandHandler } from '../../core/commandBus';
 import { askAssistant, publishDraft } from '../../store/assistantSlice';
+import { AskAssistantCommand, PublishDraftCommand } from './assistant.command';
 import type { AppStore } from '../../store';
-
-export class AskAssistantCommand extends Command {
-  readonly name = 'AskAssistant';
-  constructor(public readonly question: string) { super(); }
-}
-
-/** Human-in-the-loop: publishing an agent draft is always an explicit command. */
-export class PublishDraftCommand extends Command {
-  readonly name = 'PublishDraft';
-  constructor(public readonly messageId: number, public readonly index: number) { super(); }
-}
 
 export class AssistantHandler implements CommandHandler<AskAssistantCommand | PublishDraftCommand> {
   constructor(private store: AppStore) {}

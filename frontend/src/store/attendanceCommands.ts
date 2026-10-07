@@ -2,7 +2,7 @@ import type { AttendanceStatus } from '../api/types';
 
 /**
  * Undoable commands for the attendance sheet. These are the *record* of what
- * changed, kept in Redux state; the commands in core/commands/ are the
+ * changed, kept in Redux state; a feature's *.command.ts classes are the
  * *transport* that carries a user's intent to a handler. A handler creates one
  * of these and dispatches it to the reducer below.
  *

@@ -5,7 +5,7 @@ import { fetchClasses, selectClasses } from '../../store/schoolSlice';
 import { VirtualList } from '../../components/VirtualList';
 import { createField, type FieldSpec } from '../../components/fieldFactory';
 import { useCommand, useCommandBus, useViewFactory } from '../../core/PlatformProvider';
-import { CreateStudentCommand, FilterStudentsByClassCommand, SearchStudentsCommand } from '../../core/commands/students';
+import { CreateStudentCommand, FilterStudentsByClassCommand, SearchStudentsCommand } from './students.command';
 import { ListRow } from '../../core/views/ListRow';
 import { classLabel } from '../../lib/fp';
 import type { ListItem } from '../../core/views/types';

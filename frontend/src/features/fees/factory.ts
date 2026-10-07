@@ -1,4 +1,4 @@
-import { OpenPaymentDialogCommand } from '../../core/commands/fees';
+import { OpenPaymentDialogCommand } from './fees.command';
 import { formatBirr } from '../../lib/fp';
 import type { ViewFactory } from '../../core/viewFactoryRegistry';
 import type { ListItem, ListItemAction } from '../../core/views/types';

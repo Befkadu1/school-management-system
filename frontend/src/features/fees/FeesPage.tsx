@@ -5,7 +5,7 @@ import {
   type StatusFilter,
 } from '../../store/feesSlice';
 import { useCommand, useViewFactory } from '../../core/PlatformProvider';
-import { ClosePaymentDialogCommand, RecordPaymentCommand } from '../../core/commands/fees';
+import { ClosePaymentDialogCommand, RecordPaymentCommand } from './fees.command';
 import { ListRow } from '../../core/views/ListRow';
 import { formatBirr } from '../../lib/fp';
 import type { ListItem } from '../../core/views/types';

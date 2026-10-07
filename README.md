@@ -63,10 +63,10 @@ this one, and the dependencies they share are declared once in the root
 | Decorators (functions) | `frontend/src/lib/decorators.ts`, used in `api/http.ts` |
 | Decorator (component HOC) | `frontend/src/components/withSuspense.tsx` |
 | Factories (frontend) | `api/http.ts`, `components/fieldFactory.tsx`, `store/index.ts` (`makeStore`) |
-| Command pattern + undo/redo | `frontend/src/store/attendanceCommands.ts` (the *record* of a change; `core/commands/` carries the *intent*) |
-| Service locator + start-up wiring | `frontend/src/core/platform.ts`, `core/setup.ts` (every command, handler and view factory is registered in one place) |
-| Command bus (frontend) | `frontend/src/core/commandBus.ts`, commands in `core/commands/`; pages fire commands, handlers decide what they mean |
-| View factory registry | `frontend/src/core/viewFactoryRegistry.ts`, `core/views/`; one `factory.ts` per feature (`features/students/`, `features/fees/`) turns a record into a row `<ListRow>` can render |
+| Command pattern + undo/redo | `frontend/src/store/attendanceCommands.ts` (the *record* of a change; a feature's `*.command.ts` carries the *intent*) |
+| Service locator + start-up wiring | `frontend/src/core/platform.ts`, `core/setup.ts` (the only file that knows which handler serves which command) |
+| Command bus (frontend) | `frontend/src/core/commandBus.ts`; each feature owns its `*.command.ts` and `*.handler.ts`. Pages fire commands, handlers decide what they mean |
+| View factory registry | `frontend/src/core/viewFactoryRegistry.ts`, `core/views/`; one `factory.ts` per feature turns a record into a row `<ListRow>` can render |
 | Actions, reducers, selectors | `frontend/src/store/*Slice.ts` |
 | Effects | `frontend/src/store/effects.ts` (listener middleware) |
 | Performance | `components/VirtualList.tsx`, memoized selectors, `React.memo` rows, lazy routes in `App.tsx` |

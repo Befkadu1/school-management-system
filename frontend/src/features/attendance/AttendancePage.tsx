@@ -8,7 +8,7 @@ import { useCommand } from '../../core/PlatformProvider';
 import {
   MarkAttendanceCommand, MarkEveryoneCommand, RedoAttendanceCommand,
   SaveAttendanceCommand, SelectAttendanceContextCommand, UndoAttendanceCommand,
-} from '../../core/commands/attendance';
+} from './attendance.command';
 import { classLabel, fullName, todayIso } from '../../lib/fp';
 import type { AttendanceStatus, Student } from '../../api/types';
 

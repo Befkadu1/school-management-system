@@ -1,27 +1,11 @@
-import { Command, type CommandHandler } from '../commandBus';
+import { Command, type CommandHandler } from '../../core/commandBus';
 import { attendanceActions } from '../../store/attendanceSlice';
 import { markCommand, markAllCommand } from '../../store/attendanceCommands';
-import type { AttendanceStatus } from '../../api/types';
+import {
+  MarkAttendanceCommand, MarkEveryoneCommand, RedoAttendanceCommand,
+  SaveAttendanceCommand, SelectAttendanceContextCommand, UndoAttendanceCommand,
+} from './attendance.command';
 import type { AppStore } from '../../store';
-
-export class SelectAttendanceContextCommand extends Command {
-  readonly name = 'SelectAttendanceContext';
-  constructor(public readonly classId: number, public readonly date: string) { super(); }
-}
-
-export class MarkAttendanceCommand extends Command {
-  readonly name = 'MarkAttendance';
-  constructor(public readonly studentId: number, public readonly status: AttendanceStatus) { super(); }
-}
-
-export class MarkEveryoneCommand extends Command {
-  readonly name = 'MarkEveryone';
-  constructor(public readonly status: AttendanceStatus) { super(); }
-}
-
-export class UndoAttendanceCommand extends Command { readonly name = 'UndoAttendance'; }
-export class RedoAttendanceCommand extends Command { readonly name = 'RedoAttendance'; }
-export class SaveAttendanceCommand extends Command { readonly name = 'SaveAttendance'; }
 
 /**
  * One handler for the whole attendance sheet: the commands share the same

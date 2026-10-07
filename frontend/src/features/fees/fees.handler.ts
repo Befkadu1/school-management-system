@@ -1,21 +1,7 @@
-import { Command, type CommandHandler } from '../commandBus';
+import { Command, type CommandHandler } from '../../core/commandBus';
 import { feesActions, recordPayment } from '../../store/feesSlice';
-import type { PaymentMethod } from '../../api/types';
+import { ClosePaymentDialogCommand, OpenPaymentDialogCommand, RecordPaymentCommand } from './fees.command';
 import type { AppStore } from '../../store';
-
-export class OpenPaymentDialogCommand extends Command {
-  readonly name = 'OpenPaymentDialog';
-  constructor(public readonly invoiceId: number) { super(); }
-}
-
-export class ClosePaymentDialogCommand extends Command { readonly name = 'ClosePaymentDialog'; }
-
-export class RecordPaymentCommand extends Command {
-  readonly name = 'RecordPayment';
-  constructor(public readonly payment: {
-    invoiceId: number; amountSantim: number; method: PaymentMethod; reference: string | null;
-  }) { super(); }
-}
 
 export class PaymentHandler implements CommandHandler<
   OpenPaymentDialogCommand | ClosePaymentDialogCommand | RecordPaymentCommand
