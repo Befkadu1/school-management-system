@@ -1,0 +1,44 @@
+{
+  "name": "school-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "tsx watch backend/server.ts",
+    "dev:memory": "USE_MEMORY_DB=1 tsx watch backend/server.ts",
+    "dev:web": "npm run dev -w @school/frontend",
+    "build": "tsc -p tsconfig.build.json",
+    "build:web": "npm run build -w @school/frontend",
+    "start": "node dist/server.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx backend/db/migrate.ts",
+    "db:seed": "tsx backend/db/seed.ts",
+    "test": "npm run test:api && npm run test:web",
+    "test:api": "vitest run",
+    "test:web": "npm run test -w @school/frontend",
+    "typecheck": "tsc --noEmit && npm run typecheck -w @school/frontend",
+    "e2e": "npm run e2e -w @school/frontend"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "cors": "^2.8.6",
+    "drizzle-orm": "^0.45.3",
+    "express": "^5.2.1",
+    "pg": "^8.23.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.4",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "^0.31.11",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
