@@ -11,6 +11,7 @@ export interface AttendanceState {
   date: string;
   roster: Student[];
   marks: Marks;
+  /** What the server last confirmed. The unsaved badge is marks minus this. */
   savedMarks: Marks;
   history: History;
   status: 'idle' | 'loading' | 'ready' | 'saving' | 'error';
@@ -19,44 +20,72 @@ export interface AttendanceState {
 }
 
 export const initialAttendanceState: AttendanceState = {
-  classId: null, date: todayIso(), roster: [], marks: {}, savedMarks: {}, history: emptyHistory,
-  status: 'idle', error: null, lastSavedAt: null,
+  classId: null,
+  date: todayIso(),
+  roster: [],
+  marks: {},
+  savedMarks: {},
+  history: emptyHistory,
+  status: 'idle',
+  error: null,
+  lastSavedAt: null,
 };
 
-const toMarks = (records: AttendanceRecord[]): Marks => Object.fromEntries(records.map((r) => [r.studentId, r.status]));
+const toMarks = (records: AttendanceRecord[]): Marks =>
+  Object.fromEntries(records.map((entry) => [entry.studentId, entry.status]));
 
 const slice = createSlice({
   name: 'attendance',
   initialState: initialAttendanceState,
   reducers: {
-    // "Actions" in NgRx terms. Reducers stay pure; side effects live in listeners (effects.ts).
-    selectionChanged: (s, a: PayloadAction<{ classId: number; date: string }>) => {
-      s.classId = a.payload.classId;
-      s.date = a.payload.date;
-      s.status = 'loading';
-      s.error = null;
+    // "Actions" in NgRx terms. Reducers stay pure; side effects live in listeners (effects/).
+    selectionChanged: (state, action: PayloadAction<{ classId: number; date: string }>) => {
+      state.classId = action.payload.classId;
+      state.date = action.payload.date;
+      state.status = 'loading';
+      state.error = null;
     },
-    rosterLoaded: (s, a: PayloadAction<{ roster: Student[]; records: AttendanceRecord[] }>) => {
-      s.roster = a.payload.roster;
-      s.marks = s.savedMarks = toMarks(a.payload.records);
-      s.history = emptyHistory; s.status = 'ready';
+    rosterLoaded: (state, action: PayloadAction<{ roster: Student[]; records: AttendanceRecord[] }>) => {
+      state.roster = action.payload.roster;
+      state.marks = state.savedMarks = toMarks(action.payload.records);
+      state.history = emptyHistory;
+      state.status = 'ready';
     },
-    loadFailed: (s, a: PayloadAction<string>) => { s.status = 'error'; s.error = a.payload; },
-    commandApplied: (s, a: PayloadAction<AttendanceCommand>) => {
-      s.marks = execute(s.marks, a.payload);
-      s.history = record(s.history, a.payload);
+    loadFailed: (state, action: PayloadAction<string>) => {
+      state.status = 'error';
+      state.error = action.payload;
     },
-    undo: (s) => {
-      const { cmd, history } = stepBack(s.history);
-      if (cmd) { s.marks = undoCmd(s.marks, cmd); s.history = history; }
+    commandApplied: (state, action: PayloadAction<AttendanceCommand>) => {
+      state.marks = execute(state.marks, action.payload);
+      state.history = record(state.history, action.payload);
     },
-    redo: (s) => {
-      const { cmd, history } = stepForward(s.history);
-      if (cmd) { s.marks = execute(s.marks, cmd); s.history = history; }
+    undo: (state) => {
+      const { cmd, history } = stepBack(state.history);
+      if (cmd) {
+        state.marks = undoCmd(state.marks, cmd);
+        state.history = history;
+      }
     },
-    saveRequested: (s) => { s.status = 'saving'; s.error = null; },
-    saveSucceeded: (s, a: PayloadAction<string>) => { s.status = 'ready'; s.savedMarks = s.marks; s.lastSavedAt = a.payload; },
-    saveFailed: (s, a: PayloadAction<string>) => { s.status = 'ready'; s.error = a.payload; },
+    redo: (state) => {
+      const { cmd, history } = stepForward(state.history);
+      if (cmd) {
+        state.marks = execute(state.marks, cmd);
+        state.history = history;
+      }
+    },
+    saveRequested: (state) => {
+      state.status = 'saving';
+      state.error = null;
+    },
+    saveSucceeded: (state, action: PayloadAction<string>) => {
+      state.status = 'ready';
+      state.savedMarks = state.marks;
+      state.lastSavedAt = action.payload;
+    },
+    saveFailed: (state, action: PayloadAction<string>) => {
+      state.status = 'ready';
+      state.error = action.payload;
+    },
   },
 });
 
@@ -66,19 +95,23 @@ export const attendanceReducer = slice.reducer;
 // Selectors. createSelector memoizes: the result is recomputed only when inputs change,
 // so components that use it do not re-render needlessly.
 type Root = { attendance: AttendanceState };
-export const selectAttendance = (s: Root) => s.attendance;
-export const selectMarks = (s: Root) => s.attendance.marks;
-export const selectRoster = (s: Root) => s.attendance.roster;
-const selectSaved = (s: Root) => s.attendance.savedMarks;
+
+export const selectAttendance = (state: Root) => state.attendance;
+export const selectMarks = (state: Root) => state.attendance.marks;
+export const selectRoster = (state: Root) => state.attendance.roster;
+const selectSavedMarks = (state: Root) => state.attendance.savedMarks;
 
 export const selectCounts = createSelector([selectRoster, selectMarks], (roster, marks) =>
   roster.reduce<Record<AttendanceStatus | 'unmarked', number>>(
-    (acc, st) => { acc[marks[st.id] ?? 'unmarked'] += 1; return acc; },
+    (counts, student) => {
+      counts[marks[student.id] ?? 'unmarked'] += 1;
+      return counts;
+    },
     { present: 0, late: 0, absent: 0, unmarked: 0 },
   ));
 
-export const selectUnsavedCount = createSelector([selectMarks, selectSaved], (marks, saved) =>
-  Object.keys(marks).filter((id) => marks[+id] !== saved[+id]).length);
+export const selectUnsavedCount = createSelector([selectMarks, selectSavedMarks], (marks, savedMarks) =>
+  Object.keys(marks).filter((id) => marks[+id] !== savedMarks[+id]).length);
 
-export const selectCanUndo = (s: Root) => s.attendance.history.past.length > 0;
-export const selectCanRedo = (s: Root) => s.attendance.history.future.length > 0;
+export const selectCanUndo = (state: Root) => state.attendance.history.past.length > 0;
+export const selectCanRedo = (state: Root) => state.attendance.history.future.length > 0;
