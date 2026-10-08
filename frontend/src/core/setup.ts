@@ -1,5 +1,5 @@
-import { CommandBus, logging } from './commandBus';
-import { ViewFactoryRegistry } from './viewFactoryRegistry';
+import { CommandBus, logging } from './command-bus';
+import { ViewFactoryRegistry } from './view-factory-registry';
 import { Platform, ServiceName } from './platform';
 import {
   AttendanceHandler, MarkAttendanceCommand, MarkEveryoneCommand, RedoAttendanceCommand,
@@ -14,11 +14,11 @@ import {
   PaymentHandler, RecordPaymentCommand,
 } from '../features/fees';
 import { AskAssistantCommand, AssistantHandler, PublishDraftCommand } from '../features/assistant';
-import type { ViewFactory } from './viewFactoryRegistry';
+import type { ViewFactory } from './view-factory-registry';
 import type { ListItem } from './views/types';
 import type { Student } from '../api/types';
-import type { InvoiceWithName } from '../store/feesSlice';
-import { schoolApi, type SchoolApi } from '../api/schoolApi';
+import type { InvoiceWithName } from '../store/fees-slice';
+import { schoolApi, type SchoolApi } from '../api/school-api';
 import type { AppStore } from '../store';
 
 /**

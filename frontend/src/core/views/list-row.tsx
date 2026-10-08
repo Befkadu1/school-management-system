@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { useCommand } from '../PlatformProvider';
+import { useCommand } from '../platform-provider';
 import type { ListItem } from './types';
 
 interface Props {

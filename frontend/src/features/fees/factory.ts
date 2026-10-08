@@ -1,8 +1,8 @@
 import { OpenPaymentDialogCommand } from './fees.command';
 import { formatBirr } from '../../lib/fp';
-import type { ViewFactory } from '../../core/viewFactoryRegistry';
+import type { ViewFactory } from '../../core/view-factory-registry';
 import type { ListItem, ListItemAction } from '../../core/views/types';
-import type { InvoiceWithName } from '../../store/feesSlice';
+import type { InvoiceWithName } from '../../store/fees-slice';
 
 /**
  * Builds the list row for an invoice. The row's button carries a command

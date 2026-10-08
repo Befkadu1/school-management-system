@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { fetchDashboard } from '../../store/schoolSlice';
+import { fetchDashboard } from '../../store/school-slice';
 import { formatBirr } from '../../lib/fp';
 
 export default function DashboardPage() {

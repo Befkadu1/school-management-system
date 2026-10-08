@@ -1,5 +1,5 @@
-import { Command, type CommandHandler } from '../../core/commandBus';
-import { feesActions, recordPayment } from '../../store/feesSlice';
+import { Command, type CommandHandler } from '../../core/command-bus';
+import { feesActions, recordPayment } from '../../store/fees-slice';
 import { ClosePaymentDialogCommand, OpenPaymentDialogCommand, RecordPaymentCommand } from './fees.command';
 import type { AppStore } from '../../store';
 

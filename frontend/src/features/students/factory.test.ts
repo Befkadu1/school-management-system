@@ -3,8 +3,8 @@ import { StudentListFactory } from './factory';
 import { createPlatform } from '../../core/setup';
 import { ServiceName } from '../../core/platform';
 import { makeStore } from '../../store';
-import { fetchClasses } from '../../store/schoolSlice';
-import type { SchoolApi } from '../../api/schoolApi';
+import { fetchClasses } from '../../store/school-slice';
+import type { SchoolApi } from '../../api/school-api';
 import type { Student } from '../../api/types';
 
 const student: Student = {

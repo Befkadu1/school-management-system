@@ -1,5 +1,5 @@
-import { Command, type CommandHandler } from '../../core/commandBus';
-import { askAssistant, publishDraft } from '../../store/assistantSlice';
+import { Command, type CommandHandler } from '../../core/command-bus';
+import { askAssistant, publishDraft } from '../../store/assistant-slice';
 import { AskAssistantCommand, PublishDraftCommand } from './assistant.command';
 import type { AppStore } from '../../store';
 

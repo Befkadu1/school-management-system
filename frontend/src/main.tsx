@@ -2,10 +2,10 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import App from './app';
 import { makeStore } from './store';
 import { createPlatform } from './core/setup';
-import { PlatformProvider } from './core/PlatformProvider';
+import { PlatformProvider } from './core/platform-provider';
 import './styles.css';
 
 const store = makeStore();

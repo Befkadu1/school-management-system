@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { mockApi } from './mockApi';
+import { mockApi } from './mock-api';
 
 test('office records a payment and the balance updates', async ({ page }) => {
   const api = await mockApi(page);

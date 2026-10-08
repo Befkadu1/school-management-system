@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { Command, CommandBus, UnsupportedCommandError, logging } from './commandBus';
+import { Command, CommandBus, UnsupportedCommandError, logging } from './command-bus';
 
 class Greet extends Command {
   readonly name = 'Greet';

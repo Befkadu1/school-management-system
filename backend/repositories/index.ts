@@ -1,6 +1,6 @@
 import { createMemoryRepos } from './memory.js';
 import { createDrizzleRepos } from './drizzle.js';
-import { generateSeed } from '../db/seedData.js';
+import { generateSeed } from '../db/seed-data.js';
 import { getDb } from '../db/client.js';
 import { isoDate } from '../domain/fp.js';
 import type { Repos } from './types.js';

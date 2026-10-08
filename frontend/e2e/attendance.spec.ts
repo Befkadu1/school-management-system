@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { mockApi } from './mockApi';
+import { mockApi } from './mock-api';
 
 test('teacher marks attendance, undoes a mistake and saves', async ({ page }) => {
   const api = await mockApi(page);

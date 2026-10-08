@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { markCommand, markAllCommand, execute, undo, record, stepBack, stepForward, emptyHistory, type Marks } from './attendanceCommands';
+import { markCommand, markAllCommand, execute, undo, record, stepBack, stepForward, emptyHistory, type Marks } from './attendance-commands';
 
 describe('attendance commands', () => {
   it('execute then undo returns the exact previous marks', () => {

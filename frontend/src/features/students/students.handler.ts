@@ -1,5 +1,5 @@
-import { Command, type CommandHandler } from '../../core/commandBus';
-import { createStudent, studentsActions } from '../../store/studentsSlice';
+import { Command, type CommandHandler } from '../../core/command-bus';
+import { createStudent, studentsActions } from '../../store/students-slice';
 import { CreateStudentCommand, FilterStudentsByClassCommand, SearchStudentsCommand } from './students.command';
 import type { Student } from '../../api/types';
 import type { AppStore } from '../../store';

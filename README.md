@@ -50,6 +50,9 @@ turns up later (a parent view, an admin), it becomes another workspace beside
 this one, and the dependencies they share are declared once in the root
 `package.json` so every frontend gets the same version.
 
+Filenames are kebab-case throughout, components included, so there is one rule
+and no case-only renames to trip over on a case-insensitive filesystem.
+
 ## Where to find each concept
 
 | Concept | Files |
@@ -61,15 +64,15 @@ this one, and the dependencies they share are declared once in the root
 | Pure domain logic | `backend/domain/` |
 | Agent loop and tools | `backend/agent/` (`agent.ts`, `tools.ts`, `scripted.ts`) |
 | Decorators (functions) | `frontend/src/lib/decorators.ts`, used in `api/http.ts` |
-| Decorator (component HOC) | `frontend/src/components/withSuspense.tsx` |
-| Factories (frontend) | `api/http.ts`, `components/fieldFactory.tsx`, `store/index.ts` (`makeStore`) |
-| Command pattern + undo/redo | `frontend/src/store/attendanceCommands.ts` (the *record* of a change; a feature's `*.command.ts` carries the *intent*) |
+| Decorator (component HOC) | `frontend/src/components/with-suspense.tsx` |
+| Factories (frontend) | `api/http.ts`, `components/field-factory.tsx`, `store/index.ts` (`makeStore`) |
+| Command pattern + undo/redo | `frontend/src/store/attendance-commands.ts` (the *record* of a change; a feature's `*.command.ts` carries the *intent*) |
 | Service locator + start-up wiring | `frontend/src/core/platform.ts`, `core/setup.ts` (the only file that knows which handler serves which command) |
-| Command bus (frontend) | `frontend/src/core/commandBus.ts`; each feature owns its `*.command.ts` and `*.handler.ts`. Pages fire commands, handlers decide what they mean |
-| View factory registry | `frontend/src/core/viewFactoryRegistry.ts`, `core/views/`; one `factory.ts` per feature turns a record into a row `<ListRow>` can render |
-| Actions, reducers, selectors | `frontend/src/store/*Slice.ts` |
+| Command bus (frontend) | `frontend/src/core/command-bus.ts`; each feature owns its `*.command.ts` and `*.handler.ts`. Pages fire commands, handlers decide what they mean |
+| View factory registry | `frontend/src/core/view-factory-registry.ts`, `core/views/`; one `factory.ts` per feature turns a record into a row `<ListRow>` can render |
+| Actions, reducers, selectors | `frontend/src/store/*-slice.ts` |
 | Effects | `frontend/src/store/effects/` — listener middleware, one `*.effects.ts` per feature that has any |
-| Performance | `components/VirtualList.tsx`, memoized selectors, `React.memo` rows, lazy routes in `App.tsx` |
+| Performance | `components/virtual-list.tsx`, memoized selectors, `React.memo` rows, lazy routes in `app.tsx` |
 
 ## Next iterations
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { attendanceReducer, attendanceActions as A, initialAttendanceState, selectCounts, selectUnsavedCount } from './attendanceSlice';
-import { markCommand } from './attendanceCommands';
+import { attendanceReducer, attendanceActions as A, initialAttendanceState, selectCounts, selectUnsavedCount } from './attendance-slice';
+import { markCommand } from './attendance-commands';
 import type { Student } from '../api/types';
 
 const student = (id: number): Student => ({ id, firstName: 'S', fatherName: 'F', grandfatherName: 'G', gender: 'F', classId: 1, guardianName: '', guardianPhone: '', enrolledAt: '' });

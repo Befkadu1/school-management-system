@@ -1,4 +1,4 @@
-import { Command } from '../../core/commandBus';
+import { Command } from '../../core/command-bus';
 import type { AttendanceStatus } from '../../api/types';
 
 export class SelectAttendanceContextCommand extends Command {

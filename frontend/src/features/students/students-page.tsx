@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { studentsActions, studentSelectors } from '../../store/studentsSlice';
-import { fetchClasses, selectClasses } from '../../store/schoolSlice';
-import { VirtualList } from '../../components/VirtualList';
-import { createField, type FieldSpec } from '../../components/fieldFactory';
-import { useCommand, useCommandBus, useViewFactory } from '../../core/PlatformProvider';
+import { studentsActions, studentSelectors } from '../../store/students-slice';
+import { fetchClasses, selectClasses } from '../../store/school-slice';
+import { VirtualList } from '../../components/virtual-list';
+import { createField, type FieldSpec } from '../../components/field-factory';
+import { useCommand, useCommandBus, useViewFactory } from '../../core/platform-provider';
 import { CreateStudentCommand, FilterStudentsByClassCommand, SearchStudentsCommand } from './students.command';
-import { ListRow } from '../../core/views/ListRow';
+import { ListRow } from '../../core/views/list-row';
 import { classLabel } from '../../lib/fp';
 import type { ListItem } from '../../core/views/types';
 import type { NewStudent, Student } from '../../api/types';

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { InvoiceListFactory } from './factory';
 import { OpenPaymentDialogCommand } from './fees.command';
-import type { InvoiceWithName } from '../../store/feesSlice';
+import type { InvoiceWithName } from '../../store/fees-slice';
 
 const invoice = (overrides: Partial<InvoiceWithName> = {}): InvoiceWithName => ({
   id: 7, studentId: 1, studentName: 'Hana Tesfaye Alemu', term: '1', description: 'Tuition',

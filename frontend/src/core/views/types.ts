@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Command } from '../commandBus';
+import type { Command } from '../command-bus';
 
 /** What every list factory produces, and the only shape <ListRow> knows about. */
 export interface ListColumn {

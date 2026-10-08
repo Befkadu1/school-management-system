@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { count } from 'drizzle-orm';
 import { getDb, closeDb, type Db } from './client.js';
 import { classes, students, attendance, invoices, payments } from './schema.js';
-import { generateSeed } from './seedData.js';
+import { generateSeed } from './seed-data.js';
 import { isoDate } from '../domain/fp.js';
 
 const chunk = <T>(xs: T[], size: number): T[][] =>

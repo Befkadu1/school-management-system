@@ -6,8 +6,8 @@ import { MarkAttendanceCommand, SaveAttendanceCommand, UndoAttendanceCommand } f
 import { OpenPaymentDialogCommand } from '../features/fees';
 import { AskAssistantCommand } from '../features/assistant';
 import { CreateStudentCommand } from '../features/students';
-import type { SchoolApi } from '../api/schoolApi';
-import type { Command, CommandType } from './commandBus';
+import type { SchoolApi } from '../api/school-api';
+import type { Command, CommandType } from './command-bus';
 
 const api = {} as SchoolApi;
 

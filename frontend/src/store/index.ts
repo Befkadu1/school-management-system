@@ -1,12 +1,12 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { studentsReducer } from './studentsSlice';
-import { attendanceReducer } from './attendanceSlice';
-import { schoolReducer } from './schoolSlice';
-import { feesReducer } from './feesSlice';
-import { assistantReducer } from './assistantSlice';
+import { studentsReducer } from './students-slice';
+import { attendanceReducer } from './attendance-slice';
+import { schoolReducer } from './school-slice';
+import { feesReducer } from './fees-slice';
+import { assistantReducer } from './assistant-slice';
 import { createEffects } from './effects';
-import { schoolApi, type SchoolApi } from '../api/schoolApi';
+import { schoolApi, type SchoolApi } from '../api/school-api';
 
 const rootReducer = combineReducers({
   students: studentsReducer,

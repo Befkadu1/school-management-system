@@ -1,4 +1,4 @@
-import { Command } from '../../core/commandBus';
+import { Command } from '../../core/command-bus';
 import type { PaymentMethod } from '../../api/types';
 
 export class OpenPaymentDialogCommand extends Command {

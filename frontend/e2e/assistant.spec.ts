@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { mockApi } from './mockApi';
+import { mockApi } from './mock-api';
 
 test('assistant shows its steps and only publishes after approval', async ({ page }) => {
   const api = await mockApi(page);

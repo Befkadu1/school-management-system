@@ -1,5 +1,5 @@
 import type { Repos, StudentQuery } from './types.js';
-import type { SeedData } from '../db/seedData.js';
+import type { SeedData } from '../db/seed-data.js';
 import type { Announcement, AttendanceRecord, InvoiceWithPayments, Payment, Student } from '../domain/types.js';
 
 const fullName = (s: Student) => `${s.firstName} ${s.fatherName} ${s.grandfatherName}`.toLowerCase();

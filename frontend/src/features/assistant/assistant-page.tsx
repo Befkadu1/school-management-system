@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useAppSelector } from '../../store';
-import { useCommand } from '../../core/PlatformProvider';
+import { useCommand } from '../../core/platform-provider';
 import { AskAssistantCommand, PublishDraftCommand } from './assistant.command';
-import type { AssistantMessage } from '../../store/assistantSlice';
+import type { AssistantMessage } from '../../store/assistant-slice';
 import type { AgentDraft, AgentStep } from '../../api/types';
 
 const SUGGESTIONS = [

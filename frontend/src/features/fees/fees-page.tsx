@@ -3,13 +3,13 @@ import { useAppDispatch, useAppSelector } from '../../store';
 import {
   fetchFees, feesActions, selectFeeTotals, selectFilter, selectPayingInvoice, selectVisibleInvoices,
   type StatusFilter,
-} from '../../store/feesSlice';
-import { useCommand, useViewFactory } from '../../core/PlatformProvider';
+} from '../../store/fees-slice';
+import { useCommand, useViewFactory } from '../../core/platform-provider';
 import { ClosePaymentDialogCommand, RecordPaymentCommand } from './fees.command';
-import { ListRow } from '../../core/views/ListRow';
+import { ListRow } from '../../core/views/list-row';
 import { formatBirr } from '../../lib/fp';
 import type { ListItem } from '../../core/views/types';
-import type { InvoiceWithName } from '../../store/feesSlice';
+import type { InvoiceWithName } from '../../store/fees-slice';
 import type { PaymentMethod } from '../../api/types';
 
 const FILTERS: { value: StatusFilter; label: string }[] = [

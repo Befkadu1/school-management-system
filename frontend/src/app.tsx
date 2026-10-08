@@ -1,13 +1,13 @@
 import { lazy, useEffect, useState } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
-import { withSuspense } from './components/withSuspense';
+import { withSuspense } from './components/with-suspense';
 
 // Code splitting: each page is its own JS chunk, loaded on first visit.
-const Dashboard = withSuspense(lazy(() => import('./features/dashboard/DashboardPage')));
-const Students = withSuspense(lazy(() => import('./features/students/StudentsPage')));
-const Attendance = withSuspense(lazy(() => import('./features/attendance/AttendancePage')));
-const Fees = withSuspense(lazy(() => import('./features/fees/FeesPage')));
-const Assistant = withSuspense(lazy(() => import('./features/assistant/AssistantPage')));
+const Dashboard = withSuspense(lazy(() => import('./features/dashboard/dashboard-page')));
+const Students = withSuspense(lazy(() => import('./features/students/students-page')));
+const Attendance = withSuspense(lazy(() => import('./features/attendance/attendance-page')));
+const Fees = withSuspense(lazy(() => import('./features/fees/fees-page')));
+const Assistant = withSuspense(lazy(() => import('./features/assistant/assistant-page')));
 
 export default function App() {
   const [model, setModel] = useState<string | null>(null);

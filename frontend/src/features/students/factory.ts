@@ -1,7 +1,7 @@
 import { ServiceName, type Platform } from '../../core/platform';
-import { selectClassNames } from '../../store/schoolSlice';
+import { selectClassNames } from '../../store/school-slice';
 import { fullName } from '../../lib/fp';
-import type { ViewFactory } from '../../core/viewFactoryRegistry';
+import type { ViewFactory } from '../../core/view-factory-registry';
 import type { ListItem } from '../../core/views/types';
 import type { Student } from '../../api/types';
 

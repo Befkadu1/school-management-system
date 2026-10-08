@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { createCommandBus, validation, logging, CommandError } from './bus.js';
 import { recordPayment, recordAttendance } from './commands.js';
 import { createMemoryRepos } from '../repositories/memory.js';
-import { generateSeed } from '../db/seedData.js';
+import { generateSeed } from '../db/seed-data.js';
 
 const TODAY = '2026-10-07';
 const setup = () => {

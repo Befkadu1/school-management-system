@@ -1,6 +1,6 @@
-import { Command, type CommandHandler } from '../../core/commandBus';
-import { attendanceActions } from '../../store/attendanceSlice';
-import { markCommand, markAllCommand } from '../../store/attendanceCommands';
+import { Command, type CommandHandler } from '../../core/command-bus';
+import { attendanceActions } from '../../store/attendance-slice';
+import { markCommand, markAllCommand } from '../../store/attendance-commands';
 import {
   MarkAttendanceCommand, MarkEveryoneCommand, RedoAttendanceCommand,
   SaveAttendanceCommand, SelectAttendanceContextCommand, UndoAttendanceCommand,

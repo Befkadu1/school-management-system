@@ -1,4 +1,4 @@
-import { Command } from '../../core/commandBus';
+import { Command } from '../../core/command-bus';
 
 export class AskAssistantCommand extends Command {
   readonly name = 'AskAssistant';

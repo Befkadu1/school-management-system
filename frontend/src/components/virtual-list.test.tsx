@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { VirtualList } from './VirtualList';
+import { VirtualList } from './virtual-list';
 
 describe('VirtualList', () => {
   it('renders only the visible rows plus overscan, not all 10,000', () => {

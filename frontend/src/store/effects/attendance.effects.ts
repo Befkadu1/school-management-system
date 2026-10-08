@@ -1,4 +1,4 @@
-import { attendanceActions } from '../attendanceSlice';
+import { attendanceActions } from '../attendance-slice';
 import type { AppStartListening } from './types';
 
 export const registerAttendanceEffects = (start: AppStartListening): void => {

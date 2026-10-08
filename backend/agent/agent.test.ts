@@ -4,7 +4,7 @@ import { tools } from './tools.js';
 import { ScriptedLlm } from './scripted.js';
 import type { LlmClient, LlmRequest, LlmResponse } from './llm.js';
 import { createMemoryRepos } from '../repositories/memory.js';
-import { generateSeed } from '../db/seedData.js';
+import { generateSeed } from '../db/seed-data.js';
 
 const TODAY = '2026-10-07';
 const ctx = { repos: createMemoryRepos(generateSeed(TODAY)), today: TODAY };

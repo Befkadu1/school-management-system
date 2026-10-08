@@ -1,5 +1,5 @@
 import { isAnyOf } from '@reduxjs/toolkit';
-import { studentsActions, createStudent } from '../studentsSlice';
+import { studentsActions, createStudent } from '../students-slice';
 import type { AppStartListening, EffectOptions } from './types';
 
 /**

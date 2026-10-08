@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { ServiceName, type Platform } from './platform';
-import type { Command, CommandBus } from './commandBus';
-import type { ViewFactory } from './viewFactoryRegistry';
+import type { Command, CommandBus } from './command-bus';
+import type { ViewFactory } from './view-factory-registry';
 
 const PlatformContext = createContext<Platform | null>(null);
 

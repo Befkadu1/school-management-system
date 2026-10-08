@@ -1,7 +1,7 @@
 import type { AppStore } from '../store';
-import type { SchoolApi } from '../api/schoolApi';
-import type { CommandBus } from './commandBus';
-import type { ViewFactoryRegistry } from './viewFactoryRegistry';
+import type { SchoolApi } from '../api/school-api';
+import type { CommandBus } from './command-bus';
+import type { ViewFactoryRegistry } from './view-factory-registry';
 
 /**
  * Service locator. Everything the app registers at start-up is looked up here

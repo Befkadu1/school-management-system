@@ -3,7 +3,7 @@ import type { AddressInfo } from 'node:net';
 import type { Server } from 'node:http';
 import { createApp } from './app.js';
 import { createMemoryRepos } from '../repositories/memory.js';
-import { generateSeed } from '../db/seedData.js';
+import { generateSeed } from '../db/seed-data.js';
 import { ScriptedLlm } from '../agent/scripted.js';
 
 const TODAY = '2026-10-07';

@@ -3,7 +3,7 @@ import type { AttendanceRecord, AttendanceStatus, Student } from '../api/types';
 import {
   execute, undo as undoCmd, record, stepBack, stepForward, emptyHistory,
   type AttendanceCommand, type History, type Marks,
-} from './attendanceCommands';
+} from './attendance-commands';
 import { todayIso } from '../lib/fp';
 
 export interface AttendanceState {

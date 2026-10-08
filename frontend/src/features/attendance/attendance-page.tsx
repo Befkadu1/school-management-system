@@ -2,9 +2,9 @@ import { memo, useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store';
 import {
   selectCanRedo, selectCanUndo, selectCounts, selectRoster, selectUnsavedCount,
-} from '../../store/attendanceSlice';
-import { fetchClasses, selectClasses } from '../../store/schoolSlice';
-import { useCommand } from '../../core/PlatformProvider';
+} from '../../store/attendance-slice';
+import { fetchClasses, selectClasses } from '../../store/school-slice';
+import { useCommand } from '../../core/platform-provider';
 import {
   MarkAttendanceCommand, MarkEveryoneCommand, RedoAttendanceCommand,
   SaveAttendanceCommand, SelectAttendanceContextCommand, UndoAttendanceCommand,
