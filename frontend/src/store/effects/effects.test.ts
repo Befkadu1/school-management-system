@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { makeStore } from './index';
-import { studentsActions } from './studentsSlice';
-import { attendanceActions } from './attendanceSlice';
-import { markCommand } from './attendanceCommands';
-import type { SchoolApi } from '../api/schoolApi';
-import type { Student } from '../api/types';
+import { makeStore } from '../index';
+import { studentsActions } from '../studentsSlice';
+import { attendanceActions } from '../attendanceSlice';
+import { markCommand } from '../attendanceCommands';
+import type { SchoolApi } from '../../api/schoolApi';
+import type { Student } from '../../api/types';
 
 const student = (id: number, firstName: string): Student => ({ id, firstName, fatherName: 'Tesfaye', grandfatherName: 'Haile', gender: 'F', classId: 1, guardianName: '', guardianPhone: '', enrolledAt: '' });
 
