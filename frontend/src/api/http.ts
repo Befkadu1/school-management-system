@@ -1,7 +1,9 @@
-import { compose, withDedupe, withLogging, withRetry, withTimeout, type AsyncFn } from '../lib/decorators';
+import { withDedupe, withLogging, withRetry } from '../lib/decorators';
 
 export class HttpError extends Error {
-  constructor(readonly status: number, message: string) { super(message); }
+  constructor(readonly status: number, message: string) {
+    super(message);
+  }
 }
 
 export interface HttpClient {
@@ -10,40 +12,67 @@ export interface HttpClient {
   put<T>(path: string, body: unknown): Promise<T>;
 }
 
-export interface HttpClientOptions { baseUrl?: string; timeoutMs?: number; retries?: number; fetchImpl?: typeof fetch; log?: boolean }
+export interface HttpClientOptions {
+  baseUrl?: string;
+  timeoutMs?: number;
+  retries?: number;
+  fetchImpl?: typeof fetch;
+  log?: boolean;
+}
+
+/** A dropped connection or a 5xx is worth another try; a 4xx is the caller's fault. */
+const isRetryable = (error: unknown) => !(error instanceof HttpError) || error.status >= 500;
 
 /**
- * Factory pattern: builds a configured HTTP client. GET requests are decorated
- * with timeout, retry (only for network/5xx errors) and de-duplication;
- * writes are never retried automatically, to avoid saving something twice.
+ * Factory pattern: builds a configured HTTP client. Reads are retried and
+ * de-duplicated; writes are neither, because retrying a POST could record the
+ * same fee payment twice.
  */
-export const createHttpClient = ({ baseUrl = '', timeoutMs = 15_000, retries = 2, fetchImpl = fetch, log = import.meta.env.DEV }: HttpClientOptions = {}): HttpClient => {
-  const request = async <T>(method: string, path: string, body?: unknown): Promise<T> => {
-    const res = await fetchImpl(`${baseUrl}${path}`, {
-      method,
-      headers: body === undefined ? undefined : { 'content-type': 'application/json' },
-      body: body === undefined ? undefined : JSON.stringify(body),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new HttpError(res.status, (data as { error?: string }).error ?? `Request failed (${res.status})`);
-    return data as T;
+export const createHttpClient = ({
+  baseUrl = '',
+  timeoutMs = 15_000,
+  retries = 2,
+  fetchImpl = fetch,
+  log = import.meta.env.DEV,
+}: HttpClientOptions = {}): HttpClient => {
+  const send = async (method: string, path: string, body?: unknown): Promise<unknown> => {
+    const hasBody = body !== undefined;
+    // A write is allowed to take longer than a read before it is given up on.
+    const budgetMs = method === 'GET' ? timeoutMs : timeoutMs * 4;
+
+    let response: Response;
+    try {
+      response = await fetchImpl(`${baseUrl}${path}`, {
+        method,
+        headers: hasBody ? { 'content-type': 'application/json' } : undefined,
+        body: hasBody ? JSON.stringify(body) : undefined,
+        // Unlike a promise race, this actually cancels the request.
+        signal: AbortSignal.timeout(budgetMs),
+      });
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'TimeoutError') {
+        throw new Error(`Timed out after ${budgetMs}ms`);
+      }
+      throw error;
+    }
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new HttpError(response.status, (data as { error?: string }).error ?? `Request failed (${response.status})`);
+    }
+
+    return data;
   };
 
-  const retryable = (e: unknown) => !(e instanceof HttpError) || e.status >= 500;
-  const decorateGet = compose<AsyncFn<[string], unknown>>(
-    ...(log ? [withLogging<[string], unknown>('GET')] : []),
-    withDedupe<[string], unknown>((path) => path),
-    withRetry<[string], unknown>({ retries, shouldRetry: retryable }),
-    withTimeout<[string], unknown>(timeoutMs),
-  );
-  const get = decorateGet((path) => request('GET', path));
-  const write = (method: string) => withTimeout<[string, unknown], unknown>(timeoutMs * 4)((path, body) => request(method, path, body));
-  const post = write('POST');
-  const put = write('PUT');
+  // Each line adds one behaviour to the line above it.
+  const fetchJson = (path: string) => send('GET', path);
+  const retrying = withRetry(fetchJson, { retries, shouldRetry: isRetryable });
+  const deduped = withDedupe(retrying, (path) => path);
+  const get = log ? withLogging(deduped, 'GET') : deduped;
 
   return {
     get: <T>(path: string) => get(path) as Promise<T>,
-    post: <T>(path: string, body: unknown) => post(path, body) as Promise<T>,
-    put: <T>(path: string, body: unknown) => put(path, body) as Promise<T>,
+    post: <T>(path: string, body: unknown) => send('POST', path, body) as Promise<T>,
+    put: <T>(path: string, body: unknown) => send('PUT', path, body) as Promise<T>,
   };
 };

@@ -13,7 +13,9 @@ import { classLabel, fullName, todayIso } from '../../lib/fp';
 import type { AttendanceStatus, Student } from '../../api/types';
 
 const OPTIONS: { status: AttendanceStatus; short: string }[] = [
-  { status: 'present', short: 'P' }, { status: 'late', short: 'L' }, { status: 'absent', short: 'A' },
+  { status: 'present', short: 'P' },
+  { status: 'late', short: 'L' },
+  { status: 'absent', short: 'A' },
 ];
 
 export default function AttendancePage() {
