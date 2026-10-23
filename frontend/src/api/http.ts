@@ -51,7 +51,7 @@ export const createHttpClient = ({
       });
     } catch (error) {
       if (error instanceof DOMException && error.name === 'TimeoutError') {
-        throw new Error(`Timed out after ${budgetMs}ms`);
+        throw new Error(`Timed out after ${budgetMs}ms`, { cause: error });
       }
       throw error;
     }

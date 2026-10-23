@@ -26,7 +26,7 @@ export class UnsupportedCommandError extends Error {
 type Next = (command: Command) => Promise<unknown>;
 export type Middleware = (next: Next) => Next;
 
-export const logging = (log: (line: string) => void = console.log): Middleware => (next) => async (command) => {
+export const logging = (log: (line: string) => void = console.debug): Middleware => (next) => async (command) => {
   const started = performance.now();
   try {
     const result = await next(command);
