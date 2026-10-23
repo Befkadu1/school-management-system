@@ -1,0 +1,81 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  autosquash:
+    name: Prevent Merging Fixup Commits
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      # Same check as Lundalogik/action-prevent-merging-fixups, which is private to that org.
+      - uses: actions/github-script@v9
+        with:
+          script: |
+            const commits = await github.paginate(
+              'GET /repos/{owner}/{repo}/pulls/{pull_number}/commits',
+              { ...context.repo, pull_number: context.issue.number, per_page: 100 },
+            );
+
+            const autosquash = commits.filter(({ commit: { message } }) =>
+              ['fixup!', 'squash!', 'amend!'].some((prefix) => message.startsWith(prefix)),
+            );
+
+            for (const { sha, commit: { message } } of autosquash) {
+              core.error(`Commit ${sha.slice(0, 7)} "${message.split('\n')[0]}" must be squashed before merging`);
+            }
+
+            if (autosquash.length) {
+              core.setFailed(`${autosquash.length} autosquash commit(s). Run: git rebase -i --autosquash origin/main`);
+            }

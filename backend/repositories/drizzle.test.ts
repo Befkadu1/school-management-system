@@ -17,7 +17,7 @@ beforeAll(async () => {
   const db = drizzle(new PGlite(), { schema });
   await migrate(db, { migrationsFolder });
   const asDb = db as unknown as Db; // same query-builder API, different driver type
-  expect(await seedIfEmpty(asDb)).toBe(true);
+  if (!(await seedIfEmpty(asDb))) throw new Error('Expected a fresh database to be seeded');
   repos = createDrizzleRepos(asDb);
 }, 30_000);
 
@@ -37,10 +37,11 @@ describe('drizzle repositories (PGlite)', () => {
   });
 
   it('upserts attendance on the unique (student, date) index', async () => {
-    await repos.attendance.upsertMany([{ studentId: 1, date: '2026-10-07', status: 'absent' }]);
-    await repos.attendance.upsertMany([{ studentId: 1, date: '2026-10-07', status: 'late' }]);
-    const rows = await repos.attendance.since('2026-10-07', 1);
-    expect(rows).toEqual([{ studentId: 1, date: '2026-10-07', status: 'late' }]);
+    const dateAfterSeededRange = '2100-01-04';
+    await repos.attendance.upsertMany([{ studentId: 1, date: dateAfterSeededRange, status: 'absent' }]);
+    await repos.attendance.upsertMany([{ studentId: 1, date: dateAfterSeededRange, status: 'late' }]);
+    const rows = await repos.attendance.since(dateAfterSeededRange, 1);
+    expect(rows).toEqual([{ studentId: 1, date: dateAfterSeededRange, status: 'late' }]);
   });
 
   it('loads invoices with their payments in two queries', async () => {

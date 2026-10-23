@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { fetchDashboard } from '../../store/school-slice';
@@ -9,11 +9,11 @@ export default function DashboardPage() {
   const { dashboard, error } = useAppSelector((s) => s.school);
   useEffect(() => { void dispatch(fetchDashboard()); }, [dispatch]);
 
-  const today = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+  const [todayAtMount] = useState(() => new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }));
   const att = dashboard?.attendanceToday;
   return (
     <>
-      <h2>{today}</h2>
+      <h2>{todayAtMount}</h2>
       <p className="lede">What needs attention in the school today.</p>
       {error && <p className="error" role="alert">{error}</p>}
       {dashboard && att && (

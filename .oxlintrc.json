@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "oxc", "react", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "no-console": ["warn", { "allow": ["debug", "info", "warn", "error"] }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/react-in-jsx-scope": "off",
+    "vitest/require-mock-type-parameters": "off",
+    // Express 5 passes a rejected promise from a handler on to the error middleware.
+    "oxc/no-async-endpoint-handlers": "off"
+  },
+  "overrides": [
+    {
+      // The server and the migrate/seed scripts report progress on stdout.
+      "files": ["backend/**"],
+      "rules": { "no-console": "off" }
+    }
+  ],
+  "ignorePatterns": ["dist", "drizzle", "playwright-report", "test-results", "coverage"]
+}
