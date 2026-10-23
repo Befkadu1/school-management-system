@@ -6,11 +6,18 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
+  forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI ? 'github' : 'list',
+  reporter: [
+    [process.env.CI ? 'github' : 'list'],
+    ['html', { open: process.env.CI ? 'never' : 'on-failure' }],
+  ],
   use: {
     baseURL: 'http://localhost:5173',
+    // The API is mocked, so a click that takes longer than this is stuck, not slow.
+    actionTimeout: 5_000,
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
     launchOptions: process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {},
   },
   projects: [
