@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <PlatformProvider platform={platform}>
-        <BrowserRouter><App /></BrowserRouter>
+        <BrowserRouter basename={import.meta.env.BASE_URL}><App /></BrowserRouter>
       </PlatformProvider>
     </Provider>
   </StrictMode>,
