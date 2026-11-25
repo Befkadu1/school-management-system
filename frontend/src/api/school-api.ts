@@ -1,4 +1,5 @@
 import { createHttpClient, type HttpClient } from './http';
+import { createDemoApi } from './demo-api';
 import type {
   AgentDraft, AgentResult, AttendanceRecord, AttendanceStatus, ChatTurn, Dashboard, InvoiceView,
   NewStudent, Payment, PaymentMethod, SchoolClass, Student,
@@ -11,6 +12,7 @@ const qs = (params: Record<string, string | number | undefined>) => {
 
 /** All endpoints in one place; components never call fetch directly. */
 export const createSchoolApi = (http: HttpClient) => ({
+  health: () => http.get<{ ok: boolean; model: string }>('/api/health'),
   dashboard: () => http.get<Dashboard>('/api/dashboard'),
   classes: () => http.get<SchoolClass[]>('/api/classes'),
   students: (q: { search?: string; classId?: number; limit?: number; offset?: number }) =>
@@ -28,4 +30,8 @@ export const createSchoolApi = (http: HttpClient) => ({
 
 export type SchoolApi = ReturnType<typeof createSchoolApi>;
 
-export const schoolApi: SchoolApi = createSchoolApi(createHttpClient());
+// Demo build (VITE_DEMO=true) answers from in-memory sample data. The flag is
+// replaced at build time, so the other branch and its imports are dropped.
+export const schoolApi: SchoolApi = import.meta.env.VITE_DEMO === 'true'
+  ? createDemoApi()
+  : createSchoolApi(createHttpClient());

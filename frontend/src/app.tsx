@@ -1,6 +1,7 @@
 import { lazy, useEffect, useState } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import { withSuspense } from './components/with-suspense';
+import { schoolApi } from './api/school-api';
 
 // Code splitting: each page is its own JS chunk, loaded on first visit.
 const Dashboard = withSuspense(lazy(() => import('./features/dashboard/dashboard-page')));
@@ -12,7 +13,7 @@ const Assistant = withSuspense(lazy(() => import('./features/assistant/assistant
 export default function App() {
   const [model, setModel] = useState<string | null>(null);
   useEffect(() => {
-    fetch('/api/health').then((r) => r.json()).then((h: { model: string }) => setModel(h.model)).catch(() => setModel(null));
+    schoolApi.health().then((h) => setModel(h.model)).catch(() => setModel(null));
   }, []);
 
   return (
