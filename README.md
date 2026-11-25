@@ -25,6 +25,8 @@ npm run dev:web       # web on :5173
 Without `ANTHROPIC_API_KEY` the assistant uses an offline scripted model, so it works for free.
 With a key it uses Claude (model set by `ANTHROPIC_MODEL`).
 
+**Demo mode (static, no backend):** `npm run build:demo -w @school/frontend` builds the web app with `VITE_DEMO=true`. The build answers every API call from in-memory sample data (classes, students, attendance, fees, a scripted assistant), so it runs on any static host such as GitHub Pages with no server. Writes last until the page is reloaded. Normal `dev` and `build` still call the real API.
+
 ## Tests
 
 ```bash
