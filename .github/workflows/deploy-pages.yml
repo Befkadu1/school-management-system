@@ -1,0 +1,58 @@
+name: Deploy Frontend to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+# One deploy at a time. Let a running deploy finish rather than cancelling it mid-push.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Build and publish to gh-pages
+    runs-on: ubuntu-latest
+    env:
+      # The site is served at https://befkadu1.github.io/school-management-system/
+      VITE_BASE: /school-management-system/
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npm run build:demo -w @school/frontend
+
+      # GitHub Pages serves 404.html for unknown paths, so deep links like /students
+      # load the SPA and the router takes over. .nojekyll stops Jekyll from
+      # ignoring files that start with an underscore.
+      - name: Add SPA fallback and .nojekyll
+        run: |
+          cp frontend/dist/index.html frontend/dist/404.html
+          touch frontend/dist/.nojekyll
+
+      # Publish with plain git: the built site is copied to a scratch directory,
+      # committed there as a fresh single-commit history, and force-pushed to gh-pages.
+      # gh-pages holds only generated output, so its history is not kept.
+      - name: Publish dist to gh-pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          site="$(mktemp -d)"
+          cp -R frontend/dist/. "$site"/
+          cd "$site"
+          git init --quiet -b gh-pages
+          git add --all
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit --quiet -m "Deploy ${GITHUB_SHA}"
+          git push --force \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:refs/heads/gh-pages
